@@ -2,6 +2,7 @@ import pyabf
 import os 
 import matplotlib.pyplot as plt
 import numpy as np
+from HCN_event import *
 
 current_dir = os.path.dirname(__file__)
 relative_path = "../Cell1/20220729_Cell1_0001.abf"
@@ -26,9 +27,14 @@ start_r_idx = int(start_r // x_unit)
 end_l_idx = int(end_l // x_unit)
 end_r_idx = int(end_r // x_unit) 
 
+start_lst = []
+end_lst = []
 for i in abf.sweepList:
     abf.setSweep(i, baseline=[0.0, 0.1])
     start_avg = np.mean(abf.sweepY[start_l_idx:start_r_idx])
     end_avg = np.mean(abf.sweepY[end_l_idx:end_r_idx])
+    start_lst.append(start_avg)
+    end_lst.append(end_lst)
     print(f'sweep {i}')
     print(f'start = {start_avg}, end = {end_avg}, delta = {start_avg - end_avg}')
+HCN_rec = HCNEvent(start_lst, end_lst)
