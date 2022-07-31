@@ -5,10 +5,10 @@ from cell import *
 from experiment import *
 from mouse import Mouse
 
-script_dir = os.path.dirname(__file__)
+current_dir = os.path.dirname(__file__)
 relative_path = "../lab notebook (1).rtf" # relative path to this script. *** CHANGE FOR EACH EXPERIMENT ***
 lines = [] # a list of all lines in lab notebook
-with open(os.path.join(script_dir, relative_path)) as infile:
+with open(os.path.join(current_dir, relative_path)) as infile:
     for line in infile:
         line = rtf_to_text(line)
         if len(line) > 0 and not re.fullmatch(r'\s', line): # remove blank lines
@@ -26,7 +26,10 @@ bday_str = mouse_info[-1].split(' ')[1]
 mouse = Mouse(genotype_lst, gender, bday_str, experiment)
 
 # parse blockers
-blockers = lines[3][len('Blockers: '):].split(', ') # remove 'blockers: '
+blockers = lines[3][len('Blockers: '):].split(', ') # remove 'Blockers: '
+# remove blank/empty strings from list
+blockers = list(filter(lambda s: s and not re.fullmatch(r'\W+', s), blockers))
+# handle MFa formatting
 if '. +MFa' in blockers[-1]:
     temp = blockers[-1].split('. ')
     blockers[-1] = temp[0]
