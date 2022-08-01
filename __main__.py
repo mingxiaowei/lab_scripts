@@ -31,11 +31,12 @@ def main():
         metadata_lst = list(map(lambda x: x if isinstance(x, list) else [x], exp_info_lst + mouse_info_lst))
         for i in metadata_lst:
             writer.writerow(i)
+        writer.writerow('')
         
         # write cell info
         for i in range(1, len(exp.cells) + 1):
             writer.writerow([f'Cell_{i}'])
-            curr_cell = process_cell(i, exp)
+            curr_cell = process_cell(i, exp, exp_folder)
             writer.writerow(['Voltage Step (mV)'] + HCN_voltage)
             writer.writerow(['HCN Current (pA)'] + curr_cell.HCN_rec.delta_lst)
             writer.writerow('')
