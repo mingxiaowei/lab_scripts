@@ -5,14 +5,15 @@ import csv
 import os
 import sys
 sys.path.append('/Users/mingxiaowei/Desktop/lab/HCN_scripts')
-# print(sys.path)
-
+from process_cells import process_cell
 from parse_notebook import parse_notebook
+exp_folder = '20220729 HCN Channel Investigation RD1'
 
 def main():
     # parse experiment info
-    exp = parse_notebook()
+    exp = parse_notebook(exp_folder)
     mouse = exp.mouse
+    HCN_voltage = list(range(-60, -121, -10))
 
     # determine output file name
     dir_lst = os.listdir(os.path.dirname(__file__))
@@ -32,7 +33,14 @@ def main():
             writer.writerow(i)
         
         # write cell info
-        
+        for i in range(1, len(exp.cells) + 1):
+            writer.writerow([f'Cell_{i}'])
+            curr_cell = process_cell(i, exp)
+            writer.writerow(['Voltage Step (mV)'] + HCN_voltage)
+            writer.writerow(['HCN Current (pA)'] + curr_cell.HCN_rec.delta_lst)
+            writer.writerow('')
+
+
         
 
 if __name__ == '__main__':

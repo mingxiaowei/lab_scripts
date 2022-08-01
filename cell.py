@@ -9,7 +9,7 @@ class Cell:
         self.tau = tau # ms
         self.hold = hold # pA 
         self.depth = depth # um
-        self.HCN_events = [] # a list of HCN events
+        self.HCN_rec = None # HCNEvent object
         self.id = None # format: YYYYMMDD_Cell#
         self.experiment = None
     
@@ -30,4 +30,7 @@ class Cell:
         self.experiment = exp
         self.id = f"{exp.date.strftime('%Y%m%d')}_Cell{cnt}"
         exp.cells.append(self)
+    
+    def set_HCN_rec(self, rec):
+        self.HCN_rec = rec
         

@@ -6,12 +6,13 @@ from experiment import *
 from mouse import Mouse
 
 current_dir = os.path.dirname(__file__)
-relative_path = "../lab notebook (1).rtf" # relative path to this script. *** CHANGE FOR EACH EXPERIMENT ***
+relative_path = "../" # relative path to this script.
+notebook_name = 'lab notebook.rtf'
 lines = [] # a list of all lines in lab notebook
 experiment = None # replaced with the Experiment object later 
 
-def read_lines(): 
-    with open(os.path.join(current_dir, relative_path)) as infile:
+def read_lines(exp_title): 
+    with open(os.path.join(current_dir, relative_path + exp_title + '/' + notebook_name)) as infile:
         for line in infile:
             line = rtf_to_text(line)
             if len(line) > 0 and not re.fullmatch(r'\s', line): # remove blank lines
@@ -96,9 +97,9 @@ def parse_cells():
             # TODO: only parse the last set of stats if multiple exist for one cell - currently only parse the first set 
         line_idx += 1
 
-def parse_notebook():
+def parse_notebook(exp_title):
     global experiment 
-    read_lines()
+    read_lines(exp_title)
     parse_metadata()
     parse_cells()
     return experiment        
