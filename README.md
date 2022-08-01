@@ -16,7 +16,7 @@
 ## Run scripts 
 * In the terminal, `cd` into the directory that contains both the experiment folder and the script folder
     * Run `python3 -m HCN_scripts`
-    * All outputs will be written into a `csv` file 
+    * All outputs will be written into `output.csv` in the current directory
 ## Output
 The output `csv` file includes: 
 * Experiment date + title 
