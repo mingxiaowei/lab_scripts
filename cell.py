@@ -26,6 +26,16 @@ class Cell:
         cell_str += f'\nSoma to dendrite = {self.depth} μm'
         return cell_str + '\n'
     
+    def info_lst_csv(self):
+        info_lst = []
+        info_lst.append(['Membrane capacitance (pF)', self.cm])
+        info_lst.append(['Membrane resistance (MOhms)', self.rm])
+        info_lst.append(['Access resistance (MOhms)', self.ra])
+        info_lst.append(['Time constant (ms)', self.tau])
+        info_lst.append(['Holding current (pA)', self.hold])
+        info_lst.append(['Soma to dendrite (μm)', self.depth])
+        return info_lst
+    
     def set_experiment(self, exp, cnt):
         self.experiment = exp
         self.id = f"{exp.date.strftime('%Y%m%d')}_Cell{cnt}"

@@ -24,9 +24,11 @@ def main():
         cnt += 1
     with open(output_file, 'w') as file:
         writer = csv.writer(file)
+        writer.writerow([exp_folder])
+        writer.writerow('')
 
         # write experiment info
-        exp_info_lst = [[exp.date, exp.title], '', ['Blockers'] + exp.blockers, '', ['Internal Solution', exp.internal_soln], '']
+        exp_info_lst = [['Blockers'] + exp.blockers, '', ['Internal Solution', exp.internal_soln], '']
         mouse_info_lst = ['Mouse Info', ['Genotype'] + mouse.genotype, ['Gender', mouse.gender], ['DOB', mouse.birth_date], ['Age (days)', mouse.age]]
         metadata_lst = list(map(lambda x: x if isinstance(x, list) else [x], exp_info_lst + mouse_info_lst))
         for i in metadata_lst:
@@ -37,6 +39,9 @@ def main():
         for i in range(1, len(exp.cells) + 1):
             writer.writerow([f'Cell_{i}'])
             curr_cell = process_cell(i, exp, exp_folder)
+            for r in curr_cell.info_lst_csv():
+                writer.writerow(r)
+            writer.writerow(['HCN Recording'])
             writer.writerow(['Voltage Step (mV)'] + HCN_voltage)
             writer.writerow(['HCN Current (pA)'] + curr_cell.HCN_rec.delta_lst)
             writer.writerow('')
